@@ -1,0 +1,6 @@
+.vs
+.vscode
+build
+Solution
+*.lib
+.DS_Store

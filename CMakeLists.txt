@@ -16,4 +16,4 @@ add_library(${PROJECT_NAME} ${SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC include/)
 
 add_subdirectory(Lua)
-target_link_libraries(${PROJECT_NAME} PRIVATE Lua)
+target_link_libraries(${PROJECT_NAME} PUBLIC Lua)

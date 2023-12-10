@@ -23,7 +23,7 @@ static int NewArray(lua_State* L)
     auto data = static_cast<ArrayData*>(lua_newuserdata(L, totalSize));
     data->size = elementCount;
 
-    lua_getmetatable(L, 1); // Loads the meta table at the top of the stack
+    luaL_getmetatable(L, arrayLibraryName); // Loads the meta table at the top of the stack
     lua_setmetatable(L, -2); // Registers the userdata at the index -2 with the metatable
 
     return 1;

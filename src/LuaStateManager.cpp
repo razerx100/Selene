@@ -1,11 +1,13 @@
 #include <LuaStateManager.hpp>
+#include <LuaLibraries.hpp>
 #include <fstream>
 
 LuaStateMan::LuaStateMan() : m_state{ luaL_newstate() } {}
 
 LuaStateMan::~LuaStateMan()
 {
-    lua_close(m_state);
+    if(m_state)
+        lua_close(m_state);
 }
 
 lua_State* LuaStateMan::Get() const noexcept
@@ -77,5 +79,17 @@ void LuaStateMan::CallFunctionV(std::string_view functionName) const noexcept
     if(lua_isfunction(m_state, -1))
     {
         CheckError(lua_pcall(m_state, 0, 0, 0));
+    }
+}
+
+void LuaStateMan::LoadLibrary(LibraryType type)
+{
+    switch(type)
+    {
+        case LibraryType::Array:
+        {
+            luaL_requiref(m_state, "array", luaopen_array, 0);
+            break;
+        }
     }
 }

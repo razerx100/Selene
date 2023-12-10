@@ -9,16 +9,38 @@
 template<typename T>
 concept Arithmetic = std::is_arithmetic_v<T>;
 
+enum class LibraryType
+{
+    Array
+};
+
 class LuaStateMan
 {
 public:
     LuaStateMan();
     ~LuaStateMan();
 
+    LuaStateMan(const LuaStateMan&) = delete;
+    LuaStateMan& operator=(const LuaStateMan&) = delete;
+
+    inline LuaStateMan(LuaStateMan&& other) noexcept : m_state{other.m_state}
+    {
+        other.m_state = nullptr;
+    }
+
+    inline LuaStateMan& operator=(LuaStateMan&& other) noexcept
+    {
+        m_state = other.m_state;
+        other.m_state = nullptr;
+
+        return *this;
+    }
+
     [[nodiscard]]
     lua_State* Get() const noexcept;
 
     void LoadGlobal(std::string_view varName) const noexcept;
+    void LoadLibrary(LibraryType type);
 
     [[nodiscard]]
     std::string GetString(std::int32_t index = -1) const noexcept;
